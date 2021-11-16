@@ -1,4 +1,4 @@
-package com.medline.tdd.conversion;
+package com.medline.tdd.day1.conversion;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

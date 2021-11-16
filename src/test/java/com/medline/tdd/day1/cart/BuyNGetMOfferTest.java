@@ -1,4 +1,4 @@
-package com.medline.tdd.cart;
+package com.medline.tdd.day1.cart;
 
 import static org.junit.jupiter.api.Assertions.*;
 
