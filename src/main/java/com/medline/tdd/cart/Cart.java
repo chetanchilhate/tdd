@@ -1,4 +1,4 @@
-package com.medline.tdd;
+package com.medline.tdd.cart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +17,4 @@ public class Cart {
     items.add(item);
   }
 
-  //needs to be remove unused
-  public void addItems(Item item, int quantity) {
-
-    for(int i=0 ; i < quantity; i++) {
-      items.add(item);
-    }
-  }
 }
