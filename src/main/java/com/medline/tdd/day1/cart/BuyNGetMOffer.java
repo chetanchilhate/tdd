@@ -1,4 +1,4 @@
-package com.medline.tdd.cart;
+package com.medline.tdd.day1.cart;
 
 import static java.lang.Math.floorDiv;
 import static java.lang.Math.floorMod;
