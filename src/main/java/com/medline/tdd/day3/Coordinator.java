@@ -2,7 +2,14 @@ package com.medline.tdd.day3;
 
 public class Coordinator {
 
-  public void assign(Attendant attendant, Car car) {
+  private final Attendant attendant;
+
+  public Coordinator(Attendant attendant) {
+
+    this.attendant = attendant;
+  }
+
+  public void direct(Car car) {
     attendant.direct(car);
   }
 
