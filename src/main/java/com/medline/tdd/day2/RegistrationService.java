@@ -10,7 +10,7 @@ public class RegistrationService {
 
   public void registerUser(User user) {
     notifierFactory.getNotifier(user.getNotificationType())
-                   .getWelcomeMessage(user.getNotificationMediumDetails(), "Thank you for registration");
+                   .sendNotification(user.getNotificationMediumDetails(), "Thank you for registration");
   }
 
 
