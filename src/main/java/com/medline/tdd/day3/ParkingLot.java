@@ -4,7 +4,6 @@ import static java.util.Optional.ofNullable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class ParkingLot {
 
@@ -28,7 +27,7 @@ public class ParkingLot {
     return true;
   }
 
-  private boolean isFull() {
+  public boolean isFull() {
     return parkingMap.size() == capacity;
   }
 
@@ -50,4 +49,9 @@ public class ParkingLot {
   public void addObserver(ParkigLotObserver parkigLotObserver) {
     this.parkigLotObserver = parkigLotObserver;
   }
+
+  public int getAvailableSpaces() {
+    return capacity - parkingMap.size();
+  }
+
 }
