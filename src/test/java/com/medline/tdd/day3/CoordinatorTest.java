@@ -1,34 +1,27 @@
 package com.medline.tdd.day3;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class CoordinatorTest {
 
   @Test
-  void parkCarSuccessfullyWithSingleCoordinatorAndSingleAttendant() {
+  void directCarSuccessfullyToAttendant() {
 
-    ParkingLot groundFloorParkingLot = mock(ParkingLot.class);
-
-    List<ParkingLot> timParkingLots = new ArrayList<>();
-
-    timParkingLots.add(groundFloorParkingLot);
-
-    Attendant tim = spy(new Attendant(timParkingLots));
+    //arrange
+    Attendant tim = mock(Attendant.class);
+    Coordinator coordinator = new Coordinator(tim);
 
     Car maruti = new Car("V1");
 
-    Coordinator coordinator = new Coordinator();
+    //act
+    coordinator.direct(maruti);
 
-    coordinator.assign(tim, maruti);
-    
-    verify(groundFloorParkingLot, times(1)).park(maruti);
+    //assert
+    verify(tim, times(1)).direct(maruti);
 
   }
   
