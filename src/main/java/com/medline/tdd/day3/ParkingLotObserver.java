@@ -1,6 +1,6 @@
 package com.medline.tdd.day3;
 
-public interface ParkigLotObserver {
+public interface ParkingLotObserver {
 
   void notify(boolean isFull);
 

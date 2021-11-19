@@ -9,7 +9,7 @@ public class ParkingLot {
 
   private final int capacity;
   private final Map<String, Car> parkingMap;
-  private ParkigLotObserver parkigLotObserver;
+  private ParkingLotObserver parkingLotObserver;
 
   public ParkingLot(int capacity) {
     this.capacity = capacity;
@@ -21,8 +21,8 @@ public class ParkingLot {
       return false;
     }
     parkingMap.put(car.getVehicleNumber(), car);
-    if(isFull() && ofNullable(parkigLotObserver).isPresent()) {
-      parkigLotObserver.notify(true);
+    if(isFull() && ofNullable(parkingLotObserver).isPresent()) {
+      parkingLotObserver.notify(true);
     }
     return true;
   }
@@ -36,8 +36,8 @@ public class ParkingLot {
       throw new RuntimeException("Car with provided VehicleNumber does not exists in the ParkingLot");
     }
 
-    if(isFull() && ofNullable(parkigLotObserver).isPresent()) {
-      parkigLotObserver.notify(false);
+    if(isFull() && ofNullable(parkingLotObserver).isPresent()) {
+      parkingLotObserver.notify(false);
     }
     return parkingMap.remove(vehicleNumber);
   }
@@ -46,8 +46,8 @@ public class ParkingLot {
     return parkingMap.containsKey(vehicleNumber);
   }
 
-  public void addObserver(ParkigLotObserver parkigLotObserver) {
-    this.parkigLotObserver = parkigLotObserver;
+  public void addObserver(ParkingLotObserver parkingLotObserver) {
+    this.parkingLotObserver = parkingLotObserver;
   }
 
   public int getAvailableSpaces() {

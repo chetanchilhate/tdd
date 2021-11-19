@@ -56,6 +56,31 @@ class AttendantTest {
   }
 
   @Test
+  void parkMultipleCarToFirstAvailableParkingLot() {
+
+    //arrange
+    List<ParkingLot> parkingLots = new ArrayList<>();
+
+    ParkingLot groundParking = spy(new ParkingLot(10));
+    ParkingLot firstFloorParking = new ParkingLot(15);
+
+    parkingLots.add(groundParking);
+    parkingLots.add(firstFloorParking);
+
+    Attendant attendant = new Attendant(parkingLots);
+
+    Car bmw = new Car("V1");
+    Car bentley = new Car("V2");
+
+    attendant.direct(bmw);
+    attendant.direct(bentley);
+
+    verify(groundParking, times(1)).park(bmw);
+    verify(groundParking, times(1)).park(bentley);
+
+  }
+
+  @Test
   void parkCarToParkingLotWithMaxSpaces() {
 
     //arrange
@@ -71,7 +96,7 @@ class AttendantTest {
 
     Car bmw = new Car("V1");
 
-    attendant.direct(bmw, ParkingLotSearchStrategy.MAX);
+    attendant.direct(bmw, ParkingLotFinder.MAX);
 
     verify(firstFloorParking, times(1)).park(bmw);
   }
@@ -93,7 +118,7 @@ class AttendantTest {
 
     Car bmw = new Car("V1");
 
-    attendant.direct(bmw, ParkingLotSearchStrategy.MIN);
+    attendant.direct(bmw, ParkingLotFinder.MIN);
 
     verify(groundParking, times(1)).park(bmw);
   }
@@ -116,7 +141,7 @@ class AttendantTest {
 
     Car bmw = new Car("V3");
 
-    assertThrows(RuntimeException.class, () -> attendant.direct(bmw, ParkingLotSearchStrategy.FIRST));
+    assertThrows(RuntimeException.class, () -> attendant.direct(bmw, ParkingLotFinder.FIRST));
   }
 
 }
