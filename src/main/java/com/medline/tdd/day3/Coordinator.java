@@ -1,16 +1,29 @@
 package com.medline.tdd.day3;
 
-public class Coordinator {
+import java.util.List;
+import java.util.Optional;
 
-  private final Attendant attendant;
+public class Coordinator implements ParkingAttendant {
 
-  public Coordinator(Attendant attendant) {
+  private final List<ParkingAttendant> parkingAttendants;
 
-    this.attendant = attendant;
+  public Coordinator(List<ParkingAttendant> parkingAttendants) {
+    this.parkingAttendants = parkingAttendants;
   }
 
+  @Override
   public void direct(Car car) {
-    attendant.direct(car);
+    Optional<ParkingAttendant> parkingAttendantOptional = parkingAttendants.stream()
+                                                                           .filter(ParkingAttendant::canDirect)
+                                                                           .findFirst();
+    parkingAttendantOptional.ifPresent(parkingAttendant -> {
+      parkingAttendant.direct(car);
+    });
+  }
+
+  @Override
+  public boolean canDirect() {
+    return parkingAttendants.stream().anyMatch(ParkingAttendant::canDirect);
   }
 
 }
