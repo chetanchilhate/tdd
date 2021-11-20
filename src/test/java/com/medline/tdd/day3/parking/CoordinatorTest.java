@@ -1,4 +1,4 @@
-package com.medline.tdd.day3;
+package com.medline.tdd.day3.parking;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -6,6 +6,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.medline.tdd.day3.parking.Attendant;
+import com.medline.tdd.day3.parking.Car;
+import com.medline.tdd.day3.parking.Coordinator;
+import com.medline.tdd.day3.parking.ParkingAttendant;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -82,7 +86,7 @@ class CoordinatorTest {
   }
 
   @Test
-  @DisplayName("direct car successfully to first available attendant of second coordinator when first coordinator has no attendant")
+  @DisplayName("direct car successfully to first available attendant of second coordinator when first coordinator has no attendant available")
   void directCarSuccessfullyWithMultipleCoordinatorAndMultipleAttendant() {
 
     //arrange

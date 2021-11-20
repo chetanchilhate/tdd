@@ -1,4 +1,6 @@
-package com.medline.tdd.day2;
+package com.medline.tdd.day2.registration;
+
+import com.medline.tdd.day2.registration.Notifier;
 
 public class NotifierStub implements Notifier {
 
@@ -11,12 +13,12 @@ public class NotifierStub implements Notifier {
     this.message = message;
   }
 
-  public boolean hasRecivedMediumDetails(String mediumDetails) {
-    return notificationMediumDetails.equals(mediumDetails);
+  public boolean hasReceivedMediumDetails(String mediumDetails) {
+    return this.notificationMediumDetails.equals(mediumDetails);
   }
 
-  public boolean hasRecivedMessage(String message) {
-    return message.equals(message);
+  public boolean hasReceivedMessage(String message) {
+    return this.message.equals(message);
   }
 
 }

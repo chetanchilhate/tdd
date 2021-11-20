@@ -1,4 +1,4 @@
-package com.medline.tdd.day3;
+package com.medline.tdd.day3.parking;
 
 import static java.util.Optional.ofNullable;
 

@@ -1,10 +1,15 @@
-package com.medline.tdd.day3;
+package com.medline.tdd.day3.parking;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import com.medline.tdd.day3.parking.Attendant;
+import com.medline.tdd.day3.parking.Car;
+import com.medline.tdd.day3.parking.ParkingLot;
+import com.medline.tdd.day3.parking.ParkingLotFinder;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -27,8 +32,10 @@ class AttendantTest {
 
     Car bmw = new Car("V1");
 
+    //act
     attendant.direct(bmw);
 
+    //assert
     verify(groundParking, times(1)).park(bmw);
   }
 
@@ -50,8 +57,10 @@ class AttendantTest {
 
     Car bmw = new Car("V1");
 
+    //act
     attendant.direct(bmw);
 
+    //assert
     verify(firstFloorParking, times(1)).park(bmw);
   }
 
@@ -72,9 +81,11 @@ class AttendantTest {
     Car bmw = new Car("V1");
     Car bentley = new Car("V2");
 
+    //act
     attendant.direct(bmw);
     attendant.direct(bentley);
 
+    //assert
     verify(groundParking, times(1)).park(bmw);
     verify(groundParking, times(1)).park(bentley);
 
@@ -96,8 +107,10 @@ class AttendantTest {
 
     Car bmw = new Car("V1");
 
+    //act
     attendant.direct(bmw, ParkingLotFinder.MAX);
 
+    //assert
     verify(firstFloorParking, times(1)).park(bmw);
   }
 
@@ -118,8 +131,10 @@ class AttendantTest {
 
     Car bmw = new Car("V1");
 
+    //act
     attendant.direct(bmw, ParkingLotFinder.MIN);
 
+    //assert
     verify(groundParking, times(1)).park(bmw);
   }
 
@@ -141,7 +156,9 @@ class AttendantTest {
 
     Car bmw = new Car("V3");
 
-    assertThrows(RuntimeException.class, () -> attendant.direct(bmw, ParkingLotFinder.FIRST));
+    //act, assert
+    assertThrows(RuntimeException.class, () -> attendant.direct(bmw, ParkingLotFinder.FIRST), "No parking lot available to park a car");
+    assertFalse(attendant.canDirect());
   }
 
 }

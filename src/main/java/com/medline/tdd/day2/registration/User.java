@@ -1,6 +1,6 @@
-package com.medline.tdd.day2;
+package com.medline.tdd.day2.registration;
 
-import static com.medline.tdd.day2.NotificationType.SMS;
+import static com.medline.tdd.day2.registration.NotificationType.SMS;
 
 public class User {
 

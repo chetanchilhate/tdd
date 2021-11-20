@@ -1,8 +1,11 @@
-package com.medline.tdd.day3;
+package com.medline.tdd.day3.parking;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.medline.tdd.day3.parking.Car;
+import com.medline.tdd.day3.parking.ParkingLot;
+import com.medline.tdd.day3.parking.ParkingLotObserver;
 import org.junit.jupiter.api.Test;
 
 public class ParkingLotTest {

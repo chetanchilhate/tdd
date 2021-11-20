@@ -1,4 +1,4 @@
-package com.medline.tdd.day2;
+package com.medline.tdd.day2.registration;
 
 import static java.util.Objects.isNull;
 
