@@ -81,7 +81,6 @@ class DistanceTest {
     assertEquals(fifteenHundredMeters, sum);
   }
 
-
   @Test
   void oneKilometerPlusThreeHundredMetersShouldEqualToOnePointThreeKilometers() {
 

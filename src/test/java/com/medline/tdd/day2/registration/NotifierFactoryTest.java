@@ -1,8 +1,13 @@
-package com.medline.tdd.day2;
+package com.medline.tdd.day2.registration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.medline.tdd.day2.registration.EmailNotifier;
+import com.medline.tdd.day2.registration.NotificationType;
+import com.medline.tdd.day2.registration.Notifier;
+import com.medline.tdd.day2.registration.NotifierFactory;
+import com.medline.tdd.day2.registration.SMSNotifier;
 import org.junit.jupiter.api.Test;
 
 class NotifierFactoryTest {

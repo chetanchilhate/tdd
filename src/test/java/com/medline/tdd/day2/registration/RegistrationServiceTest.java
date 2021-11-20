@@ -1,4 +1,4 @@
-package com.medline.tdd.day2;
+package com.medline.tdd.day2.registration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -52,8 +52,8 @@ class RegistrationServiceTest {
     registrationService.registerUser(thanos);
 
     //assert
-    assertTrue(emailNotifierStub.hasRecivedMediumDetails(THANOS_EMAIL));
-    assertTrue(emailNotifierStub.hasRecivedMessage(WELCOME_MESSAGE));
+    assertTrue(emailNotifierStub.hasReceivedMediumDetails(THANOS_EMAIL));
+    assertTrue(emailNotifierStub.hasReceivedMessage(WELCOME_MESSAGE));
   }
 
   @Test

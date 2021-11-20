@@ -1,4 +1,4 @@
-package com.medline.tdd.day3;
+package com.medline.tdd.day3.parking;
 
 import java.util.List;
 import java.util.Optional;
