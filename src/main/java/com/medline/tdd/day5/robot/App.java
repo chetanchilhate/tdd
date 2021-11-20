@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /*
+
 Design a system for robot, which are capable of acting on the following instructions:
 1. L: Change direction to left.
 2. R: Change direction to the right.
