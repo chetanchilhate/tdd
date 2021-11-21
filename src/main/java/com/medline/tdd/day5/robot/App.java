@@ -1,12 +1,15 @@
 package com.medline.tdd.day5.robot;
 
+import static com.medline.tdd.day5.robot.direction.Direction.NORTH;
 import static java.lang.String.join;
 import static java.util.Arrays.asList;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.LF;
 
-import com.medline.tdd.day5.robot.direction.Direction;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 /*
 
@@ -35,15 +38,17 @@ public class App {
 
     final Map<String, Instruction> instructionMap = createInstructionMap();
 
-    final List<List<String>> inputs = asList(asList("LRFBRFRL".split("")), asList("FRLBRF".split("")));
+    final String splitChar = EMPTY;
+    final List<List<String>> inputs = List.of(asList("LRFBRFRL".split(splitChar)),
+                                              asList("FRLBRF".split(splitChar)));
 
-    final Robot chiti = new Robot(new Position(new Coordinate(0, 0), Direction.NORTH));
+    final Robot chiti = new Robot(new Position(new Coordinate(0, 0), NORTH));
 
     System.out.println("Initial : " + chiti.getPosition());
 
     for (List<String> input : inputs) {
 
-      System.out.print("Input   : ".concat(join("", input)).concat("\n"));
+      System.out.print(StringUtils.join("Input   : ", join(splitChar, input), LF));
 
       input.stream()
            .map(instructionMap::get)
@@ -51,6 +56,7 @@ public class App {
            .forEach(instruction -> instruction.accept(chiti));
 
       System.out.println("Output  : " + chiti.getPosition());
+
     }
 
   }
