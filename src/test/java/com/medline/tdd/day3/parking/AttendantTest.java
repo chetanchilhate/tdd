@@ -2,16 +2,14 @@ package com.medline.tdd.day3.parking;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.medline.tdd.day3.parking.Attendant;
-import com.medline.tdd.day3.parking.Car;
-import com.medline.tdd.day3.parking.ParkingLot;
-import com.medline.tdd.day3.parking.ParkingLotFinder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
 class AttendantTest {
@@ -38,7 +36,6 @@ class AttendantTest {
     //assert
     verify(groundParking, times(1)).park(bmw);
   }
-
 
   @Test
   void parkCarToSecondAvailableParkingLotWhenFirstIsFull() {
@@ -114,7 +111,6 @@ class AttendantTest {
     verify(firstFloorParking, times(1)).park(bmw);
   }
 
-
   @Test
   void parkCarToParkingLotWithMinSpaces() {
 
@@ -157,8 +153,120 @@ class AttendantTest {
     Car bmw = new Car("V3");
 
     //act, assert
-    assertThrows(RuntimeException.class, () -> attendant.direct(bmw, ParkingLotFinder.FIRST), "No parking lot available to park a car");
+    assertThrows(RuntimeException.class, () -> attendant.direct(bmw), "No parking lot available to park a car");
     assertFalse(attendant.canDirect());
+  }
+
+  @Test
+  void availableParkingLotsShouldContainGroundParking() {
+
+    //arrange
+    List<ParkingLot> parkingLots = new ArrayList<>();
+
+    ParkingLot groundParking = new ParkingLot(1);
+    parkingLots.add(groundParking);
+
+    //act
+    Attendant attendant = new Attendant(parkingLots);
+
+    //assert
+    assertTrue(attendant.getAvailableParkingLots().contains(groundParking));
+  }
+
+  @Test
+  void availableParkingLotsShouldNotContainGroundParking() {
+
+    //arrange
+    List<ParkingLot> parkingLots = new ArrayList<>();
+
+    ParkingLot groundParking = new ParkingLot(1);
+    parkingLots.add(groundParking);
+
+    Attendant attendant = new Attendant(parkingLots);
+
+    Car bmw = new Car("V1");
+
+    //act
+    attendant.subscribe();
+    groundParking.park(bmw);
+
+    //assert
+    assertFalse(attendant.getAvailableParkingLots().contains(groundParking));
+  }
+
+  @Test
+  void availableParkingLotsShouldContainGroundParkingWhenCarParkedAfterUnsubscribe() {
+
+    //arrange
+    List<ParkingLot> parkingLots = new ArrayList<>();
+
+    ParkingLot groundParking = new ParkingLot(1);
+    parkingLots.add(groundParking);
+
+    Attendant attendant = new Attendant(parkingLots);
+
+    Car bmw = new Car("V1");
+
+    attendant.subscribe();
+    attendant.direct(bmw);
+
+    groundParking.unpark(bmw.getVehicleNumber());
+
+    //act
+    attendant.unsubscribe();
+    attendant.direct(bmw);
+
+    //assert
+    assertTrue(attendant.getAvailableParkingLots().contains(groundParking));
+  }
+
+  @Test
+  void availableParkingLotsShouldContainGroundParkingAfterParkingBecomesAvailable() {
+
+    //arrange
+    List<ParkingLot> parkingLots = new ArrayList<>();
+
+    ParkingLot groundParking = new ParkingLot(1);
+    parkingLots.add(groundParking);
+
+    Car bmw = new Car("V1");
+    groundParking.park(bmw);
+
+    Attendant attendant = new Attendant(parkingLots);
+
+    //act
+    attendant.subscribe();
+    groundParking.unpark(bmw.getVehicleNumber());
+
+    //assert
+    assertTrue(attendant.getAvailableParkingLots().contains(groundParking));
+  }
+
+  @Test
+  void efficiencyTest() {
+
+    List<Car> cars = new ArrayList<>();
+
+    IntStream.range(1, 11).forEach(i -> cars.add(new Car("V" + i)));
+
+    List<ParkingLot> parkingLots = new ArrayList<>();
+    IntStream.iterate(0, n -> n + 2)
+             .limit(5)
+             .forEach(i -> {
+               ParkingLot parkingLot = new ParkingLot(2);
+               parkingLot.park(cars.get(i));
+               parkingLot.park(cars.get(i + 1));
+               parkingLots.add(parkingLot);
+             });
+
+    ParkingLot parkingLot = parkingLots.get(4);
+    parkingLot.unpark(cars.get(8).getVehicleNumber());
+    parkingLot.unpark(cars.get(9).getVehicleNumber());
+    Attendant attendant = new Attendant(parkingLots);
+
+    attendant.direct(cars.get(8));
+    attendant.direct(cars.get(9));
+
   }
 
 }

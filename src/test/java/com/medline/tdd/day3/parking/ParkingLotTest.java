@@ -1,11 +1,13 @@
 package com.medline.tdd.day3.parking;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-import com.medline.tdd.day3.parking.Car;
-import com.medline.tdd.day3.parking.ParkingLot;
-import com.medline.tdd.day3.parking.ParkingLotObserver;
 import org.junit.jupiter.api.Test;
 
 public class ParkingLotTest {
@@ -86,7 +88,7 @@ public class ParkingLotTest {
   }
 
   @Test
-  public void displayParkingFullWhenParkingLotIsFull() {
+  public void notifyParkingFullWhenParkingLotIsFull() {
     ParkingLotObserver parkingLotObserver = mock(ParkingLotObserver.class);
     ParkingLot parkingLot = new ParkingLot(2);
     parkingLot.addObserver(parkingLotObserver);
@@ -96,27 +98,11 @@ public class ParkingLotTest {
 
     Car bmw = new Car("V2");
     parkingLot.park(bmw);
-
-    verify(parkingLotObserver, times(1)).notify(true);
+    verify(parkingLotObserver, times(1)).notify(ParkingLotStatus.FULL, parkingLot);
   }
 
   @Test
-  public void displayParkingFullWhenParkingLotIsFull_V2() {
-    ParkingLotObserver parkingLotObserver = mock(ParkingLotObserver.class);
-    ParkingLot parkingLot = new ParkingLot(2);
-    parkingLot.addObserver(parkingLotObserver);
-
-    Car maruti = new Car("V1");
-    parkingLot.park(maruti);
-
-    Car bmw = new Car("V2");
-    parkingLot.park(bmw);
-
-    verify(parkingLotObserver, times(1)).notify(true);
-  }
-
-  @Test
-  public void displayParkingAvailableAfterParkingBecomesAvailable() {
+  public void notifyParkingAvailableAfterParkingBecomesAvailable() {
     ParkingLotObserver parkingLotObserver = mock(ParkingLotObserver.class);
 
     ParkingLot parkingLot = new ParkingLot(1);
@@ -126,11 +112,11 @@ public class ParkingLotTest {
     parkingLot.park(maruti);
 
     assertEquals(maruti, parkingLot.unpark(maruti.getVehicleNumber()));
-    verify(parkingLotObserver, times(1)).notify(false);
+    verify(parkingLotObserver, times(1)).notify(ParkingLotStatus.AVAILABLE, parkingLot);
   }
 
   @Test
-  public void displayParkingFullAfterParkingLotIsFull() {
+  public void notifyParkingIsFullOnlyOnceWhenMultipleCarsComeToPark() {
     ParkingLotObserver parkingLotObserver = mock(ParkingLotObserver.class);
     ParkingLot parkingLot = new ParkingLot(2);
     parkingLot.addObserver(parkingLotObserver);
@@ -142,9 +128,12 @@ public class ParkingLotTest {
     parkingLot.park(nexon);
 
     Car bmw = new Car("V3");
-    assertFalse(parkingLot.park(bmw));
+    Car jaguar = new Car("V4");
 
-    verify(parkingLotObserver, times(1)).notify(true);
+    assertFalse(parkingLot.park(bmw));
+    assertFalse(parkingLot.park(jaguar));
+
+    verify(parkingLotObserver, times(1)).notify(ParkingLotStatus.FULL, parkingLot);
   }
 
 }
