@@ -1,5 +1,6 @@
 package com.medline.tdd.day3.parking;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,8 +8,8 @@ public class Coordinator implements ParkingAttendant {
 
   private final List<ParkingAttendant> parkingAttendants;
 
-  public Coordinator(List<ParkingAttendant> parkingAttendants) {
-    this.parkingAttendants = parkingAttendants;
+  public Coordinator(final List<ParkingAttendant> parkingAttendants) {
+    this.parkingAttendants = Collections.unmodifiableList(parkingAttendants);
   }
 
   @Override
