@@ -5,7 +5,7 @@ import static java.util.Optional.ofNullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParkingLot {
+public class ParkingLot implements Subject {
 
   private final int capacity;
   private final Map<String, Car> parkingMap;
@@ -21,14 +21,27 @@ public class ParkingLot {
       return false;
     }
     parkingMap.put(car.getVehicleNumber(), car);
-    if(isFull() && ofNullable(parkingLotObserver).isPresent()) {
-      parkingLotObserver.notify(true);
-    }
+
+    notifyParkingStatus(ParkingLotStatus.FULL);
     return true;
+  }
+
+  private void notifyParkingStatus(ParkingLotStatus parkingLotStatus) {
+    if (isFull() && hasObserver()) {
+      parkingLotObserver.notify(parkingLotStatus, this);
+    }
+  }
+
+  public boolean hasObserver() {
+    return ofNullable(parkingLotObserver).isPresent();
   }
 
   public boolean isFull() {
     return parkingMap.size() == capacity;
+  }
+
+  public boolean isAvailable() {
+    return !isFull();
   }
 
   public Car unpark(String vehicleNumber) {
@@ -36,9 +49,7 @@ public class ParkingLot {
       throw new RuntimeException("Car with provided VehicleNumber does not exists in the ParkingLot");
     }
 
-    if(isFull() && ofNullable(parkingLotObserver).isPresent()) {
-      parkingLotObserver.notify(false);
-    }
+    notifyParkingStatus(ParkingLotStatus.AVAILABLE);
     return parkingMap.remove(vehicleNumber);
   }
 
@@ -48,6 +59,10 @@ public class ParkingLot {
 
   public void addObserver(ParkingLotObserver parkingLotObserver) {
     this.parkingLotObserver = parkingLotObserver;
+  }
+
+  public void removeObserver() {
+    this.parkingLotObserver = null;
   }
 
   public int getAvailableSpaces() {
