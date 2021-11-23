@@ -5,7 +5,7 @@ import static java.util.Optional.ofNullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParkingLot implements Subject {
+public class ParkingLot implements ParkingLotSubject {
 
   private final int capacity;
   private final Map<String, Car> parkingMap;

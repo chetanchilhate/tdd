@@ -2,14 +2,14 @@ package com.medline.tdd.day3.parking;
 
 import java.util.List;
 
-public interface ParkingLotSubscriber<T extends Subject > extends ParkingLotObserver {
+public interface ParkingLotSubscriber<T extends ParkingLotSubject > extends ParkingLotObserver {
 
   default void subscribe() {
     getSubjects().forEach(subject -> subject.addObserver(this));
   }
 
   default void unsubscribe() {
-    getSubjects().forEach(Subject::removeObserver);
+    getSubjects().forEach(ParkingLotSubject::removeObserver);
   }
 
   List<T> getSubjects();

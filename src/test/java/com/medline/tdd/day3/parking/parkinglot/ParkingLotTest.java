@@ -8,6 +8,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import com.medline.tdd.day3.parking.parkinglot.ParkingLot;
+import com.medline.tdd.day3.parking.parkinglot.ParkingLotObserver;
+import com.medline.tdd.day3.parking.parkinglot.ParkingLotStatus;
 import org.junit.jupiter.api.Test;
 
 public class ParkingLotTest {
