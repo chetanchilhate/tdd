@@ -1,4 +1,4 @@
-package com.medline.tdd.day3.parking;
+package com.medline.tdd.day3.parking.parkinglot;
 
 public interface ParkingLotObserver {
 

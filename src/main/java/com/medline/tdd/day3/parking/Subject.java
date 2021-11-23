@@ -1,8 +1,8 @@
 package com.medline.tdd.day3.parking;
 
-public interface Subject {
+public interface Subject<T> {
 
-  void addObserver(ParkingLotObserver parkingLotObserver);
+  void addObserver(T subjectObserver);
 
   void removeObserver();
 }

@@ -7,6 +7,8 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import com.medline.tdd.day3.parking.parkinglot.ParkingLot;
+import com.medline.tdd.day3.parking.parkinglot.ParkingLotFinder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;

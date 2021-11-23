@@ -1,7 +1,8 @@
-package com.medline.tdd.day3.parking;
+package com.medline.tdd.day3.parking.parkinglot;
 
 import static java.util.Optional.ofNullable;
 
+import com.medline.tdd.day3.parking.Car;
 import java.util.HashMap;
 import java.util.Map;
 

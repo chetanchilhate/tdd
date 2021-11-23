@@ -1,4 +1,4 @@
-package com.medline.tdd.day3.parking;
+package com.medline.tdd.day3.parking.parkinglot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -8,15 +8,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.medline.tdd.day3.parking.parkinglot.ParkingLot;
-import com.medline.tdd.day3.parking.parkinglot.ParkingLotObserver;
-import com.medline.tdd.day3.parking.parkinglot.ParkingLotStatus;
+import com.medline.tdd.day3.parking.Car;
 import org.junit.jupiter.api.Test;
 
-public class ParkingLotTest {
+class ParkingLotTest {
 
   @Test
-  public void parkOneCarInEmptyParkingLot() {
+  void parkOneCarInEmptyParkingLot() {
     ParkingLot parkingLot = new ParkingLot(4);
 
     Car maruti = new Car("V1");
@@ -25,7 +23,7 @@ public class ParkingLotTest {
   }
 
   @Test
-  public void unableToParkCarInFullParkingLot() {
+  void unableToParkCarInFullParkingLot() {
     ParkingLot parkingLot = new ParkingLot(1);
 
     Car maruti = new Car("V1");
@@ -38,7 +36,7 @@ public class ParkingLotTest {
   }
 
   @Test
-  public void unparkAlreadyParkedCar() {
+  void unparkAlreadyParkedCar() {
     ParkingLot parkingLot = new ParkingLot(5);
 
     Car maruti = new Car("V1");
@@ -48,14 +46,14 @@ public class ParkingLotTest {
   }
 
   @Test
-  public void unableToUnparkFromEmptyParkingLot() {
+  void unableToUnparkFromEmptyParkingLot() {
     ParkingLot parkingLot = new ParkingLot(5);
     assertThrows(RuntimeException.class, () -> parkingLot.unpark("V1"),
         "Car with provided VehicleNumber does not exists in the ParkingLot");
   }
 
   @Test
-  public void unparkBMWSuccessfullyFromFullParkingLot() {
+  void unparkBMWSuccessfullyFromFullParkingLot() {
     ParkingLot parkingLot = new ParkingLot(3);
 
     Car maruti = new Car("V1");
@@ -71,7 +69,7 @@ public class ParkingLotTest {
   }
 
   @Test
-  public void shouldNotBeAbleToParkSameCarTwice() {
+  void shouldNotBeAbleToParkSameCarTwice() {
     ParkingLot parkingLot = new ParkingLot(3);
 
     Car maruti = new Car("V1");
@@ -80,18 +78,21 @@ public class ParkingLotTest {
   }
 
   @Test
-  public void unableToUnparkSameCarTwice() {
+  void unableToUnparkSameCarTwice() {
     ParkingLot parkingLot = new ParkingLot(3);
 
     Car maruti = new Car("V1");
     parkingLot.park(maruti);
     parkingLot.unpark(maruti.getVehicleNumber());
-    assertThrows(RuntimeException.class, () -> parkingLot.unpark(maruti.getVehicleNumber()),
+
+    String vehicleNumber = maruti.getVehicleNumber();
+
+    assertThrows(RuntimeException.class, () -> parkingLot.unpark(vehicleNumber),
         "Car with provided VehicleNumber does not exists in the ParkingLot");
   }
 
   @Test
-  public void notifyParkingFullWhenParkingLotIsFull() {
+  void notifyParkingFullWhenParkingLotIsFull() {
     ParkingLotObserver parkingLotObserver = mock(ParkingLotObserver.class);
     ParkingLot parkingLot = new ParkingLot(2);
     parkingLot.addObserver(parkingLotObserver);
@@ -105,7 +106,7 @@ public class ParkingLotTest {
   }
 
   @Test
-  public void notifyParkingAvailableAfterParkingBecomesAvailable() {
+  void notifyParkingAvailableAfterParkingBecomesAvailable() {
     ParkingLotObserver parkingLotObserver = mock(ParkingLotObserver.class);
 
     ParkingLot parkingLot = new ParkingLot(1);
@@ -119,7 +120,7 @@ public class ParkingLotTest {
   }
 
   @Test
-  public void notifyParkingIsFullOnlyOnceWhenMultipleCarsComeToPark() {
+  void notifyParkingIsFullOnlyOnceWhenMultipleCarsComeToPark() {
     ParkingLotObserver parkingLotObserver = mock(ParkingLotObserver.class);
     ParkingLot parkingLot = new ParkingLot(2);
     parkingLot.addObserver(parkingLotObserver);

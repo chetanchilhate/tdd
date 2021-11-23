@@ -1,4 +1,4 @@
-package com.medline.tdd.day3.parking;
+package com.medline.tdd.day3.parking.parkinglot;
 
 import java.util.Comparator;
 import java.util.List;
