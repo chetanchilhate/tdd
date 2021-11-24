@@ -1,5 +1,7 @@
 package com.medline.tdd.day3.parking;
 
+import static java.util.Optional.ofNullable;
+
 import com.medline.tdd.day3.parking.parkinglot.ParkingLot;
 import com.medline.tdd.day3.parking.parkinglot.ParkingLotFinder;
 import com.medline.tdd.day3.parking.parkinglot.ParkingLotStatus;
@@ -10,10 +12,11 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class Attendant implements ParkingAttendant, ParkingLotSubscriber<ParkingLot> {
+public class Attendant implements ParkingAttendant, ParkingLotSubscriber<ParkingLot>, AttendantSubject {
 
   private final List<ParkingLot> parkingLots;
   private final List<ParkingLot> availableParkingLots;
+  private AttendantObserver attendantObserver;
 
   public Attendant(final List<ParkingLot> parkingLots) {
     this.parkingLots = Collections.unmodifiableList(parkingLots);
@@ -38,6 +41,18 @@ public class Attendant implements ParkingAttendant, ParkingLotSubscriber<Parking
       throw new RuntimeException("No parking lot available to park a car");
     }
     parkingLotOptional.ifPresent(parkingLot -> parkingLot.park(car));
+
+    notifyObserversAttendantIsFull();
+  }
+
+  private void notifyObserversAttendantIsFull() {
+    if(hasObserver() && !canDirect()) {
+      attendantObserver.notify(AttendantStatus.FULL);
+    }
+  }
+
+  private boolean hasObserver() {
+    return ofNullable(attendantObserver).isPresent();
   }
 
   @Override
@@ -59,4 +74,13 @@ public class Attendant implements ParkingAttendant, ParkingLotSubscriber<Parking
     return parkingLots;
   }
 
+  @Override
+  public void addObserver(AttendantObserver attendantObserver) {
+    this.attendantObserver = attendantObserver;
+  }
+
+  @Override
+  public void removeObserver() {
+    this.attendantObserver = null;
+  }
 }
