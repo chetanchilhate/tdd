@@ -3,6 +3,7 @@ package com.medline.tdd.day3.parking;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -242,6 +243,23 @@ class AttendantTest {
 
     //assert
     assertTrue(attendant.getAvailableParkingLots().contains(groundParking));
+  }
+
+  @Test
+  void notifyAttendantObserversThatAttendantIsNotAvailableToDirectCars() {
+
+    Car bmw = new Car("V1");
+    ParkingLot groundFloorParking = new ParkingLot(1);
+
+    Attendant jhon = new Attendant(List.of(groundFloorParking));
+    jhon.subscribe();
+
+    AttendantObserver attendantObserver = mock(AttendantObserver.class);
+    jhon.addObserver(attendantObserver);
+
+    jhon.direct(bmw);
+
+    verify(attendantObserver, times(1)).notify(AttendantStatus.FULL);
   }
 
   @Test
